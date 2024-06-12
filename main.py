@@ -5,14 +5,17 @@ from mutagen.mp3 import MP3
 from yandex_music import Client
 import os
 
-path = 'E://music/'
+path = input('Введи путь до папки, куда сохранять музыку (пример "C://music/"): ')
 
 dont_need_replace = False
 
-client = Client('AQAAAAAW_bnzAAG8XsHO3Y6QDkvyrcotC8zgqKM')
+token = input('Введи токен яндекса: ')
+client = Client(token)
 client.init()
+a = input('Номер первого трека (начало с 0): ')
+b = input('Номер предпоследнего: ')
 
-for i in range(201, 500):
+for i in range(int(a), int(b)):
     print(i)
     track = client.users_likes_tracks()[i]
     print(track.id)
@@ -24,7 +27,6 @@ for i in range(201, 500):
     for ar in client.tracks(track.id)[0].artists:
         artist += ar.name + ', '
         i+=1
-    #artist = artist.replace(', ', '', -1)
     artist = artist.rstrip(", ")
     print(f'\tTITLE: {title}\n\tALBUM: {album}\n\tARTIST: {artist}\n\t{year}')
     f = path + f'{artist}/{album}/{title}.mp3'
